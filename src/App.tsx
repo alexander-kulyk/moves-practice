@@ -1,24 +1,34 @@
+//core
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
+//components
+import { Layout, PageNotFound } from './components';
+import { TrendingMovies, StarWars } from './pages';
+//other
+import { ROUTES } from './constants';
+import { fetchStarWarsMovies } from './store/starWarsMovies/thunks';
+import { fetchTrendingMovies } from './store/trendingMovies/thunk';
 
 function App() {
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    /* @ts-ignore */
+    dispatch(fetchTrendingMovies());
+    /* @ts-ignore */
+    dispatch(fetchStarWarsMovies());
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path={ROUTES.HOME} element={<Layout />}>
+          <Route index element={<StarWars />} />
+          <Route path={ROUTES.TRENDING} element={<TrendingMovies />} />
+          <Route path={ROUTES.PAGE_NOT_FOUND} element={<PageNotFound />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
