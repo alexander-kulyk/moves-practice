@@ -1,13 +1,17 @@
 //core
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 // components
 import { Modal, MoviesList, Loader } from '../../components';
 //other
 import { useMovieDetails } from '../../hooks';
-import { trendingMoviesSelectors } from '../../store/trendingMovies';
 import { movieDetailSelectors } from '../../store/movieDetails';
+import { trendingMoviesSelectors } from '../../store/trendingMovies';
+import { fetchTrendingMovies } from '../../store/trendingMovies/thunk';
 
 export const TrendingMovies = () => {
+  const dispatch = useDispatch();
+
   const trendingMovies = useSelector(
     trendingMoviesSelectors.getTrendingMoviesList
   );
@@ -22,6 +26,12 @@ export const TrendingMovies = () => {
   const { handleClickPoster, isOpenModal, setIsOpenModal } = useMovieDetails();
 
   const isLoading = isLoadingTrendingMovies || isLoadingMovieDetails;
+
+  React.useEffect(() => {
+    /* @ts-ignore */
+    dispatch(fetchTrendingMovies());
+  }, []);
+
   return (
     <>
       {isSucceed && (

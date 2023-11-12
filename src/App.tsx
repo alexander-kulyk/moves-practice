@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 //core
 import React from 'react';
 import { useDispatch } from 'react-redux';
@@ -8,14 +9,11 @@ import { TrendingMovies, StarWars } from './pages';
 //other
 import { ROUTES } from './constants';
 import { fetchStarWarsMovies } from './store/starWarsMovies/thunks';
-import { fetchTrendingMovies } from './store/trendingMovies/thunk';
 
 function App() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    /* @ts-ignore */
-    dispatch(fetchTrendingMovies());
     /* @ts-ignore */
     dispatch(fetchStarWarsMovies());
   }, []);
